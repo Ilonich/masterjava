@@ -65,7 +65,7 @@ public class JaxbParser {
         }
     }
 
-    public synchronized String marshal(Object instance) throws JAXBException {
+    public String marshal(Object instance) throws JAXBException {
         return jaxbMarshaller.marshal(instance);
     }
 
