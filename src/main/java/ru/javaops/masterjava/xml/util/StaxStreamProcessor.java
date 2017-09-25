@@ -35,6 +35,20 @@ public class StaxStreamProcessor implements AutoCloseable {
         return false;
     }
 
+    public boolean doUntilAnyStartElementContainsValue(String elementName, String elementValue) throws XMLStreamException {
+        while (reader.hasNext()) {
+            int event = reader.next();
+            if (event == XMLEvent.START_ELEMENT) {
+                if (elementName.equals(reader.getLocalName())) {
+                    if (elementValue.equals(reader.getElementText())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public String getValue(int event) throws XMLStreamException {
         return (event == XMLEvent.CHARACTERS) ? reader.getText() : reader.getLocalName();
     }
