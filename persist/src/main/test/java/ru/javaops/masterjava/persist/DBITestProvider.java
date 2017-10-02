@@ -1,4 +1,6 @@
-package ru.javaops.masterjava.persist;
+package java.ru.javaops.masterjava.persist;
+
+import ru.javaops.masterjava.persist.DBIProvider;
 
 import java.sql.DriverManager;
 

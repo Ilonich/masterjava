@@ -1,15 +1,17 @@
-package ru.javaops.masterjava.persist.dao;
+package java.ru.javaops.masterjava.persist.dao;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ru.javaops.masterjava.persist.UserTestData;
+import java.ru.javaops.masterjava.persist.UserTestData;
+
+import ru.javaops.masterjava.persist.dao.UserDao;
 import ru.javaops.masterjava.persist.model.User;
 
 import java.util.List;
 
-import static ru.javaops.masterjava.persist.UserTestData.FIST5_USERS;
+import static java.ru.javaops.masterjava.persist.UserTestData.FIST5_USERS;
 
 /**
  * gkislin
