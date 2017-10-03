@@ -8,7 +8,6 @@ import ru.javaops.masterjava.persist.model.City;
 import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
 
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -22,10 +21,8 @@ public class CityImporter {
     public Map<String, City> process(StaxStreamProcessor processor) throws XMLStreamException {
         val map = cityDao.getAsMap();
         val newCities = new ArrayList<City>();
-        String element;
 
-        while ((element = processor.doUntilAny(XMLEvent.START_ELEMENT, "City", "Users")) != null) {
-            if (element.equals("Users")) break;
+        while (processor.startElement("City", "Cities")) {
             val ref = processor.getAttribute("id");
             if (!map.containsKey(ref)) {
                 newCities.add(new City(null, ref, processor.getText()));
