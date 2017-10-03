@@ -1,9 +1,8 @@
-package java.ru.javaops.masterjava.persist.dao;
+package ru.javaops.masterjava.persist.dao;
 
 import ru.javaops.masterjava.persist.DBIProvider;
-import ru.javaops.masterjava.persist.dao.AbstractDao;
+import ru.javaops.masterjava.persist.DBITestProvider;
 
-import java.ru.javaops.masterjava.persist.DBITestProvider;
 
 /**
  * gkislin
