@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import ru.javaops.masterjava.service.mail.GroupResult;
 import ru.javaops.masterjava.service.mail.MailRemoteService;
 import ru.javaops.masterjava.service.mail.util.MailUtils.MailObject;
+import ru.javaops.masterjava.util.Exceptions;
 import scala.concurrent.Await;
 import scala.concurrent.duration.Duration;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -18,6 +20,7 @@ import java.io.IOException;
 
 import static ru.javaops.masterjava.service.mail.WebUtil.createMailObject;
 import static ru.javaops.masterjava.service.mail.WebUtil.doAndWriteResponse;
+import static ru.javaops.masterjava.service.mail.WebUtil.doAsync;
 import static ru.javaops.masterjava.service.mail.listeners.AkkaWebappListener.akkaActivator;
 
 @WebServlet(value = "/sendAkkaTyped", loadOnStartup = 1, asyncSupported = true)
@@ -36,13 +39,20 @@ public class AkkaTypedSendServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        doAndWriteResponse(resp, () -> sendAkka(createMailObject(req)));
-    }
+        // https://dzone.com/articles/limited-usefulness
+        doAsync(resp, () -> {
+            MailObject mailObject = createMailObject(req);
 
-    private String sendAkka(MailObject mailObject) throws Exception {
-        scala.concurrent.Future<GroupResult> future = mailService.sendBulk(mailObject);
-        log.info("Receive future, waiting result ...");
-        GroupResult groupResult = Await.result(future, Duration.create(10, "seconds"));
-        return groupResult.toString();
+            final AsyncContext ac = req.startAsync();
+            ac.start(Exceptions.<IOException>wrap(() -> {
+                doAndWriteResponse((HttpServletResponse) ac.getResponse(), () -> {
+                    scala.concurrent.Future<GroupResult> future = mailService.sendBulk(mailObject);
+                    log.info("Receive future, await result ...");
+                    GroupResult groupResult = Await.result(future, Duration.create(10, "seconds"));
+                    return groupResult.toString();
+                });
+                ac.complete();
+            }));
+        });
     }
 }
