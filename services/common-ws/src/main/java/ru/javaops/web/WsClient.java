@@ -2,7 +2,6 @@ package ru.javaops.web;
 
 import com.typesafe.config.Config;
 import org.slf4j.event.Level;
-import ru.javaops.masterjava.ExceptionType;
 import ru.javaops.masterjava.config.Configs;
 import ru.javaops.web.handler.SoapLoggingHandlers;
 

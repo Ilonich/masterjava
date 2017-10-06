@@ -1,4 +1,4 @@
-package ru.javaops.masterjava.export;
+package ru.javaops.masterjava.service.mail.web;
 
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;

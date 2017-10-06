@@ -2,7 +2,6 @@ package ru.javaops.web;
 
 
 import com.google.common.base.Throwables;
-import ru.javaops.masterjava.ExceptionType;
 
 import javax.xml.ws.WebFault;
 

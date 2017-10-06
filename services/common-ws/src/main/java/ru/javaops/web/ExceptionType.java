@@ -1,4 +1,4 @@
-package ru.javaops.masterjava;
+package ru.javaops.web;
 
 import javax.xml.bind.annotation.XmlType;
 
